@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  	<groupId>com.psj.common</groupId>
+  	<artifactId>hibernate-validator</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	
+  	<properties>
+    	<hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
+    	<hibernate.validator.cdi.version>5.4.1.Final</hibernate.validator.cdi.version>
+    	<javax.el.version>3.0.1-b08</javax.el.version>
+    	<logback.classic.version>1.2.3</logback.classic.version>
+  	</properties>
+  	
+  	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-shade-plugin</artifactId>
+		        <version>2.4.3</version>
+		        <executions>
+		          <execution>
+		            <phase>package</phase>
+		            <goals>
+		              <goal>shade</goal>
+		            </goals>
+		            <configuration>
+		              <transformers>
+		                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+		                  <manifestEntries>
+		                  	<Main-Class>org.bigdata.java.spark.kafka.KafkaConnector</Main-Class>
+		                    <Build-Number>1</Build-Number>
+		                  </manifestEntries>
+		                </transformer>
+		                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+				        	<resource>reference.conf</resource>
+				        </transformer>
+		              </transformers>
+		            </configuration>
+		          </execution>
+		        </executions>
+	      </plugin>
+		</plugins>
+	</build>
+  	
+  	<!-- http://hibernate.org/validator/documentation/getting-started/ -->
+	<dependencies>
+		<dependency>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-validator</artifactId>
+		   <version>${hibernate.validator.version}</version>
+		</dependency>
+		
+		 <!-- for evaluating dynamic expressions in constraint violation messages. 
+		 웹기반이면 WAS 가 제공하는 EL 모듈 사용하면 됨. JAVA SE 환경에만 의존성 추가 -->
+		<dependency>
+		   <groupId>org.glassfish</groupId>
+		   <artifactId>javax.el</artifactId>
+		   <version>${javax.el.version}</version>
+		</dependency>
+		
+		<!-- Adding this dependency is not required for applications running on a Java EE application server. -->
+		<dependency>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-validator-cdi</artifactId>
+		   <version>${hibernate.validator.cdi.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.classic.version}</version>
+		</dependency>
+	</dependencies>
+</project>
