@@ -1,0 +1,22 @@
+{
+    "namespace": "com.psj.common.avro.avpr",
+    "protocol": "Calculator",
+
+    "types": [],
+
+    "messages": {
+        "add": {
+                "request":[ { "name": "x", "type": "double"},
+                            { "name": "y", "type": "double"} ],
+                "response":"double"
+            },
+
+          "subtract": {
+                "request":[ { "name": "x", "type": "double"},
+                            { "name": "y", "type": "double"} ],
+                "response":"double"
+          }
+    }
+}
+
+# avro protocal 방식 : json 포맷
