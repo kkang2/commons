@@ -5,6 +5,7 @@
   	<version>0.0.1-SNAPSHOT</version>
   
   	<properties>
+  		<netty.version>4.1.13.Final</netty.version>
   	</properties>
   
   	<build>
@@ -51,5 +52,10 @@
 	</build>
 	
 	<dependencies>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-all</artifactId>
+		    <version>${netty.version}</version>
+		</dependency>
 	</dependencies>
 </project>
