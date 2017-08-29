@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "schedule": {
+    "type": "simple",
+    "interval": "1s",
+    "count": 3
+  },
+  "workflow": {
+    "collect": {
+      "metrics": {
+        "/intel/procfs/disk/dev/sda/device_type": {},
+        "/intel/procfs/disk/dev/sda/local_time_is": {},
+        "/intel/procfs/disk/dev/sda/logical_block_size": {},
+		"/intel/procfs/disk/dev/sda/product": {},
+		"/intel/procfs/disk/dev/sda/revision": {},
+		"/intel/procfs/disk/dev/sda/rotation_rate": {},
+		"/intel/procfs/disk/dev/sda/smart_support_is": {},
+		"/intel/procfs/disk/dev/sda/user_capacity": {},
+		"/intel/procfs/disk/dev/sda/vendor": {}
+      },
+      "publish": [
+        {
+          "plugin_name": "influxdb",
+          "config": {
+           	"user": "admin",
+			"password": "admin",
+			"host": "192.168.137.128",
+			"port": 8086,
+			"database": "testdb",
+			"retention": "autogen",
+			"scheme": "http",
+			"isMultiFields": false,
+			"skip-verify": false
+          }
+        }
+      ]
+    }
+  }
+}
