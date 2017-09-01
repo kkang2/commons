@@ -1,38 +1,87 @@
 package main
 
 import (
-	"time"
 	"fmt"
-	"strings"
+	"log"
+	"os/exec"
+	"bytes"
+    "strings"
 )
 
-func main() {
-	
-	metricMap := make(map[string]string)
-	
-	var str string = "/dev/sda"
-	
-	for _, val := range strings.Split(str[1:], "/") {
-		fmt.Println(val)
-	}
-	
-	fmt.Println(time.Now())
-	
-	//var strs = []string{"dev", "sda"}
-	
-	mkStr(strings.Split(str[1:], "/")...)
+var CHECK_MAP_KEYS = []string{"Size"}
+
+func GetLineStrings(c string, arg ...string) ([]string, int) {
+    cmd := exec.Command(c, arg...)
+    var outb, errb bytes.Buffer
+
+    cmd.Stdout = &outb
+    cmd.Stderr = &errb
+
+    err := cmd.Run()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    lineStrings := strings.SplitAfter(outb.String(), "\n")
+
+    return lineStrings, len(lineStrings)
 }
 
-func mkStr(strs ...string) {
-	fmt.Println(len(strs))
+func GetDmiData() []map[string]string {
+	lineStrings, _ := GetLineStrings("dmidecode", "--type", "memory")
+	dataMapList := []map[string]string{}
+	dataMap := map[string]string{}
 	
-	var str = "/" + strings.Join(strs, "/")
-
-	fmt.Println(str)
+	isMapData := false
 	
-	/*
-	for _, str := range strs {
-		fmt.Println(str)
+	for _, line := range lineStrings {
+		line = strings.TrimSpace(line)
+		
+		//fmt.Println("line : " + line)
+		
+		if strings.Contains(line, "Memory Device") && len(line) == 13 {
+			isMapData = true
+			continue
+		} else if len(line) == 0 {
+			
+			if len(dataMap) > 0 && isValidMap(dataMap) {
+				dataMapList = append(dataMapList, dataMap)
+				dataMap = map[string]string{}
+			}
+			
+			isMapData = false
+			continue
+		}
+		
+		if isMapData && strings.Contains(line, ":") {
+			sp := strings.SplitN(line, ":", 2)
+			key := strings.TrimSpace(sp[0])
+			val := strings.TrimSpace(sp[1])
+			
+			dataMap[key] = val
+		}
 	}
-	*/
+	
+	if len(dataMap) > 0 && isValidMap(dataMap) {
+		dataMapList = append(dataMapList, dataMap)
+	}
+	
+	return dataMapList
+}
+
+func isValidMap(data map[string]string) bool {
+	for _, key := range CHECK_MAP_KEYS {
+		val, ok := data[key]
+		
+		if !ok || strings.ToLower(val) == "no module installed" {
+			return false
+		}
+	}
+	
+	return true
+}
+
+func main() {
+	fmt.Println(GetDmiData())
+	fmt.Println(len(GetDmiData()))
 }
