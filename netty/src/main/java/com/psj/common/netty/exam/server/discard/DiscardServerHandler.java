@@ -1,4 +1,4 @@
-package com.psj.common.netty.exam;
+package com.psj.common.netty.exam.server.discard;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
