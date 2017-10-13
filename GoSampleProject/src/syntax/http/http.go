@@ -2,10 +2,12 @@ package main
 
 import (
 	"net/http"
+	"fmt"
 )
 
 func main() {
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
+		fmt.Println("브라우저 접속!!")		
 		res.Write([]byte("Hello, world!")) // 웹 브라우저에 응답
 	}) // / 경로에 접속했을 때 실행할 함수 설정
 
