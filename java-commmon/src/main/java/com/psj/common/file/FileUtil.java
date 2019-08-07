@@ -18,7 +18,9 @@ public class FileUtil {
 		// Files.newDirectoryStream(path, "*.{png,jpg,bmp}" 처럼 패턴으로 파일을 제한할수 있음
 		try (DirectoryStream<Path> ds = Files.newDirectoryStream(Paths.get(dirPath))) {
             for (Path file : ds) {
-            	filepathList.add(file.getFileName().toString());
+            	if(file.toFile().isFile()) {
+            		filepathList.add(file.getFileName().toString());
+            	}
             }
         } catch (IOException e) {
             System.err.println(e);
