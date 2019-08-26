@@ -13,7 +13,7 @@ import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
  *
  * @author Apress
  */
-public class FileUtilSample {
+public class FileInfoUtilSample {
 
     public static void main(String[] args) {
 

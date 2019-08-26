@@ -1,6 +1,8 @@
 package com.psj.common.file;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 
 public class FileWriteUtil {
@@ -14,8 +16,21 @@ public class FileWriteUtil {
 	}
 	
 	/*
-	 * 바이너리 데이터 파일에 쓰는 기능 만들기 
+	 * 바이너리 데이터 destFile 에 쓰기
 	 **/
+	public static void writeBytesToFile(byte[] data, File destFile) {
+		try (FileOutputStream fileOutputStream = new FileOutputStream(destFile)) {
+			fileOutputStream.write(data);
+			fileOutputStream.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		/* ex) file object convert to bytes
+			Path fileLocation = Paths.get("C:\\log\\dt=20190724\\tm=00\\1564130405213");
+			byte[] data = Files.readAllBytes(fileLocation); 
+		*/
+	}
 	
 	public static void main(String[] args) {
 

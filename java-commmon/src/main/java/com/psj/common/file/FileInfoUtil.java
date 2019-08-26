@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtil {
+public class FileInfoUtil {
 	/*
 	 * 디렉터리 안의 파일리스트 리턴
 	 **/
