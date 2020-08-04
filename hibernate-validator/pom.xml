@@ -5,9 +5,10 @@
   	<version>0.0.1-SNAPSHOT</version>
   	
   	<properties>
-    	<hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
-    	<hibernate.validator.cdi.version>5.4.1.Final</hibernate.validator.cdi.version>
+    	<hibernate.validator.version>6.1.5.Final</hibernate.validator.version>
+    	<hibernate.validator.cdi.version>6.1.5.Final</hibernate.validator.cdi.version>
     	<javax.el.version>3.0.1-b08</javax.el.version>
+    	<jakarta.el.version>3.0.3</jakarta.el.version>
     	<logback.classic.version>1.2.3</logback.classic.version>
   	</properties>
   	
@@ -64,10 +65,15 @@
 		
 		 <!-- for evaluating dynamic expressions in constraint violation messages. 
 		 웹기반이면 WAS 가 제공하는 EL 모듈 사용하면 됨. JAVA SE 환경에만 의존성 추가 -->
-		<dependency>
+		<!-- <dependency>
 		   <groupId>org.glassfish</groupId>
 		   <artifactId>javax.el</artifactId>
 		   <version>${javax.el.version}</version>
+		</dependency> -->
+		<dependency>
+		   <groupId>org.glassfish</groupId>
+		   <artifactId>jakarta.el</artifactId>
+		   <version>${jakarta.el.version}</version>
 		</dependency>
 		
 		<!-- Adding this dependency is not required for applications running on a Java EE application server. -->

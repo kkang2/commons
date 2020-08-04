@@ -30,6 +30,8 @@ public class ValidatorUtil {
 	}
 	
 	public static void main(String[] args) {
-
+		//Set<ConstraintViolation<NumberDomain>> constraintViolations = getValidator().validate(domain); // 객체에 선언된 모든 제약검사
+        //Set<ConstraintViolation<NumberDomain>> constraintViolations = getValidator().validateProperty(domain, "count"); // 프로퍼티 명을 사용하여 해당 객체의 프로퍼티에 선언된 제약을 검사
+        //Set<ConstraintViolation<NumberDomain>> constraintViolations = getValidator().validateValue(NumberDomain.class, "count", 1);
 	}
 }
