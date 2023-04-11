@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ericsson.nmf.api.mapper.BatchJobMapper">
+	
+	<select id="selectBatchGroupList" resultType="batchGroupDomain">
+		SELECT 
+			batch_group_id,
+			batch_group_name,
+			activation,
+			start_time,
+			end_time,
+			batch_cycle,
+			interval_class,
+			interval_time,
+			batch_user
+		FROM TB_BATCH_GROUP
+		ORDER BY start_time
+	</select>
+	
+	<select id="selectBatchGroupById"  resultType="batchGroupDomain">
+		SELECT 
+			batch_group_id,
+			batch_group_name,
+			activation,
+			start_time,
+			end_time,
+			batch_cycle,
+			interval_class,
+			interval_time,
+			batch_user
+		FROM TB_BATCH_GROUP
+		WHERE
+			batch_group_id = #{batch_group_id}
+	</select>
+	
+	<!-- <insert id="insertBatchGroup" parameterType="com.ericsson.nmf.api.model.batch.BatchGroupDTO">
+			INSERT
+			INTO TB_BATCH_GROUP
+			(
+			batch_group_name,
+			activation,
+			start_time,
+			end_time,
+			batch_cycle,
+			interval_class,
+			interval_time,
+			batch_user
+			)
+			VALUES
+			( 
+			#{batch_group_name},
+			#{activation},
+			#{start_time},
+			#{end_time},
+			#{batch_cycle},
+			#{interval_class},
+			#{interval_time},
+			#{batch_user}
+			)
+	</insert>
+	
+	<select id="existBatchGroupName" parameterType="com.ericsson.nmf.api.model.batch.BatchGroupDTO" resultType="int">
+		SELECT 
+			count(*)
+		FROM TB_BATCH_GROUP
+		<where>
+			1=1
+			<if test="batch_group_name != null">
+				AND batch_group_name = #{batch_group_name}
+			</if>
+			<if test="batch_group_id != null">
+				AND batch_group_id != #{batch_group_id}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateBatchGroup" parameterType="com.ericsson.nmf.api.model.batch.BatchGroupDTO">
+		UPDATE TB_BATCH_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="batch_group_name != null and !batch_group_name.equals('')">
+				batch_group_name = #{batch_group_name},
+			</if>
+			<if test="activation != null and !activation.equals('')">
+				activation = #{activation},
+			</if>
+			<if test="start_time != null">
+				start_time = #{start_time},
+			</if>
+			<if test="end_time != null">
+				end_time = #{end_time},
+			</if>
+			<if test="batch_cycle != null">
+				batch_cycle = #{batch_cycle},
+			</if>
+			<if test="interval_class != null and !interval_class.equals('')">
+				interval_class = #{interval_class},
+			</if>
+			<if test="interval_time != null">
+				interval_time = #{interval_time},
+			</if>
+			<if test="batch_user != null and !batch_user.equals('')" >
+				batch_user = #{batch_user}
+			</if>
+		</trim>
+
+		WHERE
+			batch_group_id =  #{batch_group_id}
+	</update>
+	
+	<delete id="deleteBatchGroup" parameterType="com.ericsson.nmf.api.model.batch.BatchGroupDTO">
+			DELETE FROM TB_BATCH_GROUP
+			WHERE
+			batch_group_id =  #{batch_group_id}
+	</delete>
+	
+	<select id="selectBatchGroupByName"  resultType="com.ericsson.nmf.api.model.batch.BatchGroupDTO">
+		SELECT 
+			batch_group_id,
+			batch_group_name,
+			activation,
+			start_time,
+			end_time,
+			batch_cycle,
+			interval_class,
+			interval_time,
+			batch_user
+		FROM TB_BATCH_GROUP
+		WHERE
+			batch_group_name =  #{batch_group_name}
+	</select>
+	
+	
+	<insert id="insertBatchCommand" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO">
+			INSERT INTO TB_BATCH_COMMAND
+			(
+			batch_group_id,
+			command_no,
+			command,
+			node_name,
+			wait_time
+			) VALUES (
+			#{batch_group_id},
+			#{command_no},
+			#{command},
+			#{node_name},
+			#{wait_time} 
+			)
+	</insert>
+	
+	<select id="existBatchCommand" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO" resultType="int">
+		SELECT 
+			count(*)
+		FROM TB_BATCH_COMMAND
+		<where>
+			1=1
+			AND
+			batch_group_id = #{batch_group_id}
+			AND
+			command_no = #{command_no}
+		</where>
+	</select>
+	
+	<select id="selectBatchCommandListById"  resultType="com.ericsson.nmf.api.model.batch.BatchCommandDTO">
+		SELECT 
+			batch_group_id,
+			command_no,
+			node_name,
+			command,
+			wait_time
+		FROM TB_BATCH_COMMAND
+		WHERE
+			batch_group_id =  #{batch_group_id}
+	</select>
+	
+	<select id="selectBatchCommandByIdAndCommandNo"  parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO" resultType="com.ericsson.nmf.api.model.batch.BatchCommandDTO">
+		SELECT 
+			batch_group_id,
+			command_no,
+			node_name,
+			command,
+			wait_time
+		FROM TB_BATCH_COMMAND
+		WHERE
+			batch_group_id = #{batch_group_id}
+			AND
+			command_no = #{command_no}
+	</select>
+	
+	<update id="updateBatchCommand" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO">
+		UPDATE TB_BATCH_COMMAND
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="command_no != null">
+				command_no = #{command_no},
+			</if>
+			<if test="node_name != null and !node_name.equals('')">
+				node_name = #{node_name},
+			</if>
+			<if test="command != null and !command.equals('')">
+				command = #{command},
+			</if>
+			<if test="wait_time != null">
+				wait_time = #{wait_time}
+			</if>
+		</trim>
+		WHERE
+			batch_group_id = #{batch_group_id}
+			AND
+			command_no = #{command_no}
+	</update>
+	
+	<delete id="deleteBatchCommand" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO">
+			DELETE FROM TB_BATCH_COMMAND
+			WHERE
+			batch_group_id = #{batch_group_id}
+			<if test="command_no != null">
+				AND command_no = #{command_no}
+			</if>
+	</delete>
+	
+	<delete id="deleteBatchCommandList">
+			DELETE FROM TB_BATCH_COMMAND
+			WHERE
+			batch_group_id = #{batch_group_id}
+	</delete>
+	
+	<select id="selectBatchHistoryList" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO" resultType="com.ericsson.nmf.api.model.batch.CommandHistoryDTO">
+		SELECT 
+				batch_group_id,
+				batch_group_name,
+				batch_user,
+				start_time_str,
+				command_no,
+				command,
+				result
+		FROM TB_BATCH_COMMAND_HISTORY
+		ORDER BY start_time_str DESC
+		limit #{rowLimitCount}
+	</select>
+	
+	<select id="selectBatchHistory" parameterType="com.ericsson.nmf.api.model.batch.BatchCommandDTO" resultType="com.ericsson.nmf.api.model.batch.CommandHistoryDTO">
+		SELECT
+				batch_group_id,
+				batch_group_name,
+				batch_user,
+				start_time_str,
+				command_no,
+				command,
+				result,
+				result_output
+		FROM TB_BATCH_COMMAND_HISTORY
+		WHERE
+			batch_group_id = #{batch_group_id} AND
+			start_time_str = #{start_time_str} AND
+			command_no = #{command_no}
+	</select>
+	
+	<insert id="insertBatchHistory" parameterType="com.ericsson.nmf.api.model.batch.CommandHistoryDTO">
+		INSERT
+			INTO tb_batch_command_history
+			(
+				batch_group_id,
+				batch_group_name,
+				batch_user,
+				start_time_str,
+				command_no,
+				command,
+				result,
+				result_output
+			)
+			VALUES
+			(
+				#{batch_group_id},
+				#{batch_group_name},
+				#{batch_user},
+				#{start_time_str},
+				#{command_no},
+				#{command},
+				#{result},
+				#{result_output}
+			)
+	</insert>
+	
+	<select id="selectCommandDictionaryByCommand" parameterType="com.ericsson.nmf.api.model.batch.RequestBatchValidateModel" resultType="com.ericsson.nmf.api.model.batch.CommandDictionaryModel">
+		SELECT 
+				nodetype,
+				command_num,
+				command,
+				description,
+				passworD_REQUIRED
+		FROM 
+			TB_COMMAND_DICTIONARY
+		WHERE 
+			command = #{command}
+	</select> -->
+</mapper>

@@ -16,7 +16,14 @@
     		<groupId>org.mybatis</groupId>
     		<artifactId>mybatis</artifactId>
     		<version>${mybatis.version}</version>
-	</dependency>
+		</dependency>
+		
+		<!-- JDBC Driver -->
+		<dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<version>42.4.0</version>
+		</dependency>
 
     	<dependency>
             <groupId>org.projectlombok</groupId>

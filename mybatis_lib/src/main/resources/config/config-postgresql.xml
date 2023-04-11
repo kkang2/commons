@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+  		<package name="com.mybatis.exam.real.domain"/>
+	</typeAliases>
+		
+    <!-- 환경 스택 -->
+	<environments default="default">
+		<!-- 환경 -->
+		<environment id="default">
+			<!-- 트랜잭션 관리자 -->
+			<transactionManager type="JDBC" />
+			<!-- 데이터 소스 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver" />
+				<property name="url" value="jdbc:postgresql://10.180.93.64:5432/skt_nmf_dev" />
+				<property name="username" value="epc" />
+				<property name="password" value="epc" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<!-- 마이바티스 매퍼 XML 파일 -->
+		<mapper resource="config/mapper/BatchJobMapper.xml" />
+	</mappers>
+</configuration>
